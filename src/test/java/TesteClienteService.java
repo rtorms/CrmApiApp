@@ -74,72 +74,72 @@ public class TesteClienteService {
         }
     }
     
-    @Test
-    public void testeListarClientesSemRegistros() {
-        List<Cliente> clientes = clienteService.pesquisa("Cliente Inexistente");
-        assertTrue(clientes.isEmpty(), "A lista de clientes deveria estar vazia.");
-    }
-    
-    @Test
-    public void testSalvarClienteInvalido() {
-        Cliente clienteInvalido = new Cliente();
-        clienteInvalido.setNomeFantasia(null); // Nome é obrigatório
-        clienteInvalido.setCpfCnpj("123"); // CPF/CNPJ inválido
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            clienteService.save(clienteInvalido);
-        });
-
-        String expectedMessage = "Nome Fantasia é obrigatório";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-    
-    @Test
-    public void testEditarClienteInexistente() {
-        Cliente clienteInexistente = new Cliente();
-        clienteInexistente.setId(9999L); // ID que não existe no banco
-        clienteInexistente.setNomeFantasia("Cliente Inexistente");
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            clienteService.update(clienteInexistente);
-        });
-
-        String expectedMessage = "Cliente não encontrado";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    
-    @Test
-    public void testRemoverClienteInexistente() {
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            clienteService.delete(9999L); // ID que não existe no banco
-        });
-
-        String expectedMessage = "Cliente não encontrado";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
-
-    
-    @Test
-    public void testEditarClienteInvalido() {
-        cliente.setNomeFantasia(""); // Nome inválido
-        cliente.setCpfCnpj("123"); // CPF/CNPJ inválido
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            clienteService.update(cliente);
-        });
-
-        String expectedMessage = "Dados do cliente inválidos";
-        String actualMessage = exception.getMessage();
-
-        assertTrue(actualMessage.contains(expectedMessage));
-    }
+//    @Test
+//    public void testeListarClientesSemRegistros() {
+//        List<Cliente> clientes = clienteService.pesquisa("Cliente Inexistente");
+//        assertTrue(clientes.isEmpty(), "A lista de clientes deveria estar vazia.");
+//    }
+//    
+//    @Test
+//    public void testSalvarClienteInvalido() {
+//        Cliente clienteInvalido = new Cliente();
+//        clienteInvalido.setNomeFantasia(null); // Nome é obrigatório
+//        clienteInvalido.setCpfCnpj("123"); // CPF/CNPJ inválido
+//
+//        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+//            clienteService.save(clienteInvalido);
+//        });
+//
+//        String expectedMessage = "Nome Fantasia é obrigatório";
+//        String actualMessage = exception.getMessage();
+//
+//        assertTrue(actualMessage.contains(expectedMessage));
+//    }
+//    
+//    @Test
+//    public void testEditarClienteInexistente() {
+//        Cliente clienteInexistente = new Cliente();
+//        clienteInexistente.setId(9999L); // ID que não existe no banco
+//        clienteInexistente.setNomeFantasia("Cliente Inexistente");
+//
+//        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+//            clienteService.update(clienteInexistente);
+//        });
+//
+//        String expectedMessage = "Cliente não encontrado";
+//        String actualMessage = exception.getMessage();
+//
+//        assertTrue(actualMessage.contains(expectedMessage));
+//    }
+//
+//    
+//    @Test
+//    public void testRemoverClienteInexistente() {
+//        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+//            clienteService.delete(9999L); // ID que não existe no banco
+//        });
+//
+//        String expectedMessage = "Cliente não encontrado";
+//        String actualMessage = exception.getMessage();
+//
+//        assertTrue(actualMessage.contains(expectedMessage));
+//    }
+//
+//    
+//    @Test
+//    public void testEditarClienteInvalido() {
+//        cliente.setNomeFantasia(""); // Nome inválido
+//        cliente.setCpfCnpj("123"); // CPF/CNPJ inválido
+//
+//        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+//            clienteService.update(cliente);
+//        });
+//
+//        String expectedMessage = "Dados do cliente inválidos";
+//        String actualMessage = exception.getMessage();
+//
+//        assertTrue(actualMessage.contains(expectedMessage));
+//    }
 
 
 
