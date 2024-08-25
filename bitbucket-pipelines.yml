@@ -1,7 +1,7 @@
-#  Template maven-build
+# Template maven-build
 
-#  This template allows you to test and build your Java project with Maven.
-#  The workflow allows running tests, code checkstyle and security scans on the default branch.
+# This template allows you to test and build your Java project with Maven.
+# The workflow allows running tests, code checkstyle and security scans on the default branch.
 
 # Prerequisites: pom.xml and appropriate project structure should exist in the repository.
 
@@ -9,32 +9,29 @@ image: maven:3.6.3
 
 pipelines:
   default:
-#    - parallel:
-      - step:
-          name: Build and Test
-          caches:
-            - maven
-          script:
-            - mvn -B verify --file pom.xml
-            - pipe: atlassian/slack-notify:2.3.1
-              variables:
-                WEBHOOK_URL: 'https://hooks.slack.com/services/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'
-                MESSAGE: 'Verifique projeto CrmApiApp'
-          after-script:
-              # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
-            - pipe: atlassian/checkstyle-report:0.3.0
-      - step:
-          name: Security Scan
-          script:
-            # Run a security scan for sensitive data.
-            # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
-            - pipe: atlassian/git-secrets-scan:0.5.1
-      - step:
-          name: Deploy
-          script:
-            - echo 'Deploy em dev'
-            - pipe: atlassian/slack-notify:2.3.1
-              variables:
-                WEBHOOK_URL: 'https://hooks.slack.com/services/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'
-                MESSAGE: 'Verifique o projeto CrmApiApp'
-                
+    - step:
+        name: Build and Test
+        caches:
+          - maven
+        script:
+          - mvn -B verify --file pom.xml
+        after-script:
+          - pipe: atlassian/slack-notify:2.3.1
+            variables:
+              WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+              MESSAGE: $([[ $BITBUCKET_EXIT_CODE -eq 0 ]] && echo '✅ Testes passaram com sucesso no projeto CrmApiApp' || echo '❌ Falha nos testes do projeto CrmApiApp')
+          - pipe: atlassian/checkstyle-report:0.3.0
+    - step:
+        name: Security Scan
+        script:
+          # Run a security scan for sensitive data.
+          # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+          - pipe: atlassian/git-secrets-scan:0.5.1
+    - step:
+        name: Deploy
+        script:
+          - echo 'Deploy em dev'
+          - pipe: atlassian/slack-notify:2.3.1
+            variables:
+              WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+              MESSAGE: 'Deploy Projeto CrmApiApp completo'
