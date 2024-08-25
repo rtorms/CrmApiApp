@@ -19,7 +19,7 @@ pipelines:
             - pipe: atlassian/slack-notify:2.3.1
               variables:
                 WEBHOOK_URL: 'https://hooks.slack.com/services/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'
-                MESSAGE: 'Verifique projeto CrmApiApp'
+                MESSAGE: $([[ $BITBUCKET_EXIT_CODE -eq 0 ]] && echo '✅ Testes passaram com sucesso no projeto CrmApiApp' || echo '❌ Falha nos testes do projeto CrmApiApp')
           after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
             - pipe: atlassian/checkstyle-report:0.3.0
@@ -35,6 +35,17 @@ pipelines:
             # Run a security scan for sensitive data.
             # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
             - pipe: atlassian/git-secrets-scan:0.5.1
+      - step:
+          name: Deploy to Staging
+          deployment: staging
+          script:
+            - echo 'Deploying to staging environment'
+            - pipe: atlassian/slack-notify:2.3.1
+              variables:
+                  WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+                  MESSAGE: 'Deploy to staging completed successfully'
+          services:
+              - docker
       - step:
           name: Deploy
           script:
