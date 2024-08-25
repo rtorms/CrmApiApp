@@ -13,8 +13,8 @@ public class ConexaoPostgreSql {
 		try {
 				Class.forName("org.postgresql.Driver").newInstance();
 
-				String url = "jdbc:postgresql://127.0.0.1:5432/CRM_ROBERTO"
-						+ "?user=postgres&password=Fime2404&&ssl=true;loginTimeout=40";
+				String url = "jdbc:postgresql://aws-0-sa-east-1.pooler.supabase.com:6543/"
+						+ "postgres?user=postgres.rasldcdvwzvesfascbqd&password=DEVOPS_UTFPR";
 				return DriverManager.getConnection(url);
 			
 

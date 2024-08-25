@@ -87,26 +87,68 @@ public class ClienteService {
 				return null;
 			}
 
-			String sql = "UPDATE cliente SET " + "inativo = ?, " + "nomefantasia = ?, " + "cpfcnpj = ?, "
-					+ "telefone = ?, " + "cep = ? , " + "endereco = ?, " + "numero = ?, " + "bairro = ?, "
-					+ "complemento = ?, " + "cidade = ? " + "WHERE id = ?";
+			StringBuilder sql = new StringBuilder("UPDATE cliente SET ");
+		    List<Object> parameters = new ArrayList<>();
 
-			stmt = conn.prepareStatement(sql);
+		    if (cliente.getNomeFantasia() != null) {
+		        sql.append("nomefantasia = ?, ");
+		        parameters.add(cliente.getNomeFantasia());
+		    }
+		    if (cliente.getCpfCnpj() != null) {
+		        sql.append("cpfcnpj = ?, ");
+		        parameters.add(cliente.getCpfCnpj());
+		    }
+		    if (cliente.getTelefone() != null) {
+		        sql.append("telefone = ?, ");
+		        parameters.add(cliente.getTelefone());
+		    }
+		    if (cliente.getCep() != null) {
+		        sql.append("cep = ?, ");
+		        parameters.add(cliente.getCep());
+		    }
+		    if (cliente.getEndereco() != null) {
+		        sql.append("endereco = ?, ");
+		        parameters.add(cliente.getEndereco());
+		    }
+		    if (cliente.getNumero() != null) {
+		        sql.append("numero = ?, ");
+		        parameters.add(cliente.getNumero());
+		    }
+		    if (cliente.getBairro() != null) {
+		        sql.append("bairro = ?, ");
+		        parameters.add(cliente.getBairro());
+		    }
+		    if (cliente.getComplemento() != null) {
+		        sql.append("complemento = ?, ");
+		        parameters.add(cliente.getComplemento());
+		    }
+		    if (cliente.getCidade() != null) {
+		        sql.append("cidade = ?, ");
+		        parameters.add(cliente.getCidade());
+		    }
 
-			stmt.setBoolean(1, cliente.isInativo());
-			stmt.setString(2, cliente.getNomeFantasia());
-			stmt.setString(3, cliente.getCpfCnpj());
-			stmt.setString(4, cliente.getTelefone());
-			stmt.setString(5, cliente.getCep());
-			stmt.setString(6, cliente.getEndereco());
-			stmt.setString(7, cliente.getNumero());
-			stmt.setString(8, cliente.getBairro());
-			stmt.setString(9, cliente.getComplemento());
-			stmt.setString(10, cliente.getCidade());
-			stmt.setLong(11, cliente.getId());
+		    // Adiciona o campo "inativo" sempre, já que é um booleano
+		    sql.append("inativo = ? ");
+		    parameters.add(cliente.isInativo());
 
-			int rowsAffected = stmt.executeUpdate();
+		    // Remove a última vírgula e espaço se houver
+		    if (sql.toString().endsWith(", ")) {
+		        sql.setLength(sql.length() - 2);
+		    }
 
+		    sql.append("WHERE id = ?");
+		    parameters.add(cliente.getId());
+
+		    stmt = conn.prepareStatement(sql.toString());
+
+		    // Preenche os parâmetros dinamicamente
+		    for (int i = 0; i < parameters.size(); i++) {
+		        stmt.setObject(i + 1, parameters.get(i));
+		    }
+
+		    int rowsAffected = stmt.executeUpdate();
+
+		   
 			if (rowsAffected == 0) {
 				throw new SQLException("Falha ao atualizar o cliente. Nenhum registro foi modificado.");
 			}
