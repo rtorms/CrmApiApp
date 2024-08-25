@@ -81,7 +81,7 @@ public class TesteClienteService {
     
     @Test
     public void testeListarClientesSemRegistros() {
-        List<Cliente> clientes = clienteService.pesquisa("Cliente Inexistente");
+        List<Cliente> clientes = clienteService.pesquisa("Cliente Inexistente_1");
         assertTrue(clientes.isEmpty(), "A lista de clientes deveria estar vazia.");
     }
     
