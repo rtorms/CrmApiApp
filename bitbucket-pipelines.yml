@@ -16,6 +16,10 @@ pipelines:
             - maven
           script:
             - mvn -B verify --file pom.xml
+            - pipe: atlassian/slack-notify:2.3.1
+              variables:
+                WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+                MESSAGE: 'Verifique projeto CrmApiApp'
           after-script:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
             - pipe: atlassian/checkstyle-report:0.3.0
@@ -29,3 +33,8 @@ pipelines:
           name: Deploy
           script:
             - echo 'Deploy em dev'
+            - pipe: atlassian/slack-notify:2.3.1
+              variables:
+                WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+                MESSAGE: 'Verifique o projeto CrmApiApp'
+                
