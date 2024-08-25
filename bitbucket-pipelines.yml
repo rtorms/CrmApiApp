@@ -1,7 +1,7 @@
-# Template maven-build
+#  Template maven-build
 
-# This template allows you to test and build your Java project with Maven.
-# The workflow allows running tests, code checkstyle and security scans on the default branch.
+#  This template allows you to test and build your Java project with Maven.
+#  The workflow allows running tests, code checkstyle and security scans on the default branch.
 
 # Prerequisites: pom.xml and appropriate project structure should exist in the repository.
 
@@ -14,24 +14,54 @@ pipelines:
         caches:
           - maven
         script:
-          - mvn -B verify --file pom.xml
+          - mvn -B clean install
+          - mvn -B test
         after-script:
-          - pipe: atlassian/slack-notify:2.3.1
-            variables:
-              WEBHOOK_URL: 'https://hooks.slack.com/services/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'
-              MESSAGE: $([[ $BITBUCKET_EXIT_CODE -eq 0 ]] && echo '✅ Testes passaram com sucesso no projeto CrmApiApp' || echo '❌ Falha nos testes do projeto CrmApiApp')
+          # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
           - pipe: atlassian/checkstyle-report:0.3.0
+        services:
+          - docker
+    - step:
+        name: Code Quality Analysis
+        script:
+          # Run SonarQube analysis
+          - mvn sonar:sonar -Dsonar.projectKey=my-project-key -Dsonar.host.url=https://sonarqube.example.com -Dsonar.login=$SONAR_TOKEN
+        services:
+          - docker
+    - step:
+        name: Integration Tests
+        script:
+          # Run integration tests
+          - mvn verify -DskipUnitTests=false
+        services:
+          - docker
     - step:
         name: Security Scan
         script:
           # Run a security scan for sensitive data.
-          # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
           - pipe: atlassian/git-secrets-scan:0.5.1
+        services:
+          - docker
     - step:
-        name: Deploy
+        name: Deploy to Staging
+        deployment: staging
         script:
-          - echo 'Deploy em dev'
+          - echo 'Deploying to staging environment'
           - pipe: atlassian/slack-notify:2.3.1
             variables:
               WEBHOOK_URL: 'https://hooks.slack.com/services/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'
-              MESSAGE: 'Deploy Projeto CrmApiApp completo'
+              MESSAGE: 'Deploy to staging completed successfully'
+        services:
+          - docker
+    - step:
+        name: Deploy to Production
+        deployment: production
+        trigger: manual
+        script:
+          - echo 'Deploying to production environment'
+          - pipe: atlassian/slack-notify:2.3.1
+            variables:
+              WEBHOOK_URL: 'https://hooks.slack.com/services/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'
+              MESSAGE: 'Deploy to production completed successfully'
+        services:
+          - docker
