@@ -24,6 +24,12 @@ pipelines:
               # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
             - pipe: atlassian/checkstyle-report:0.3.0
       - step:
+          name: Integration Tests
+          script:
+          - mvn verify -DskipUnitTests=false
+          services:
+          - docker
+      - step:
           name: Security Scan
           script:
             # Run a security scan for sensitive data.
