@@ -23,11 +23,11 @@ pipelines:
           - docker
     - step:
         name: Code Quality Analysis
-       - pipe: sonarsource/sonarcloud-scan:2.0.0
-          variables:
-          EXTRA_ARGS: -Dsonar.projectDescription=\"Project with sonarcloud-scan pipe\" -Dsonar.eslint.reportPaths=\"report.json\"
-          SONAR_SCANNER_OPTS: -Xmx512m
-          DEBUG: "true"
+        script:
+          # Run SonarQube analysis
+          - mvn sonar:sonar -Dsonar.projectKey=my-project-key -Dsonar.host.url=https://sonarqube.example.com -Dsonar.login=$SONAR_TOKEN
+        services:
+          - docker
     - step:
         name: Integration Tests
         script:
