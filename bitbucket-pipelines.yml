@@ -22,10 +22,14 @@ pipelines:
         services:
           - docker
     - step:
-        name: Code Quality Analysis
+        name: Code Quality Analysis with PMD
         script:
-          # Run SonarQube analysis
-          - mvn sonar:sonar -Dsonar.projectKey=my-project-key -Dsonar.host.url=https://sonarqube.example.com -Dsonar.login=$SONAR_TOKEN
+          # Run PMD analysis
+          - mvn pmd:pmd
+          # Convert PMD report to Bitbucket Code Insights
+          - pipe: atlassian/pmd-report:0.3.0
+            variables:
+              REPORT_PATH: 'target/pmd.xml'
         services:
           - docker
     - step:
