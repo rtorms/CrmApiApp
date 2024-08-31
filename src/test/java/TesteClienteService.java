@@ -82,21 +82,21 @@ public class TesteClienteService {
         assertTrue(clientes.isEmpty(), "A lista de clientes deveria estar vazia.");
     }
     
-//    @Test
-//    public void testSalvarClienteInvalido() {
-//        Cliente clienteInvalido = new Cliente();
-//        clienteInvalido.setNomeFantasia(null); // Nome é obrigatório
-//        clienteInvalido.setCpfCnpj("123"); // CPF/CNPJ inválido
-//
-//        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-//            clienteService.save(clienteInvalido);
-//        });
-//
-//        String expectedMessage = "Nome Fantasia é obrigatório";
-//        String actualMessage = exception.getMessage();
-//
-//        assertTrue(actualMessage.contains(expectedMessage));
-//    }
+    @Test
+    public void testSalvarClienteInvalido() {
+        Cliente clienteInvalido = new Cliente();
+        clienteInvalido.setNomeFantasia(null); // Nome é obrigatório
+        clienteInvalido.setCpfCnpj("123"); // CPF/CNPJ inválido
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            clienteService.save(clienteInvalido);
+        });
+
+        String expectedMessage = "Nome Fantasia é obrigatório";
+        String actualMessage = exception.getMessage();
+
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
     
 //    @Test
 //    public void testEditarClienteInexistente() {
