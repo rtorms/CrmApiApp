@@ -33,10 +33,7 @@ public class TesteClienteService {
 
     private Cliente cliente;
     
-    @Test
-    public void teste1() {
-    	assertEquals("1", "1");
-    }
+ 
 
     @Test
     public void testSequenciaSalvarEditar() throws Exception {
