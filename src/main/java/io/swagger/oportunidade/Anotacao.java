@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 
 public class Anotacao {
 	
-	private Long id;
+	private Integer id;
 	private LocalDateTime dataCadastro;
 	private String descricao;	
 	private Integer idOportunidade;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public LocalDateTime getDataCadastro() {

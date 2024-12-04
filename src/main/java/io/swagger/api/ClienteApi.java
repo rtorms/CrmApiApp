@@ -41,12 +41,12 @@ public interface ClienteApi {
 	@Operation(summary = "Carregar cliente", description = "Carregar cliente pelo ID")
 	@GetMapping(value = "/carregar")
 	ResponseEntity<Cliente> carregarCliente(
-			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do cliente", example = "1") Long id);
+			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do cliente", example = "1") Integer id);
 
 	@Operation(summary = "Excluir cliente", description = "Excluir cliente pelo ID" )
 	@DeleteMapping(value = "/delete")
 	ResponseEntity<Boolean> deleteCliente(
-			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do cliente", example = "1") Long id);
+			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do cliente", example = "1") Integer id);
 
 }
 

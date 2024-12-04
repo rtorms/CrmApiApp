@@ -37,7 +37,7 @@ public class ClienteService {
 
 			stmt.setBoolean(1, cliente.isInativo());
 			stmt.setTimestamp(2, Timestamp.from(Instant.now()));
-			stmt.setString(3, cliente.getNomeFantasia());
+			stmt.setString(3, cliente.getRazaoSocial());
 			stmt.setString(4, cliente.getNomeFantasia());
 			stmt.setString(5, cliente.getCpfCnpj());
 			stmt.setString(6, cliente.getTelefone());
@@ -53,7 +53,7 @@ public class ClienteService {
 			if (affectedRows > 0) {
 				generatedKeys = stmt.getGeneratedKeys();
 				if (generatedKeys.next()) {
-					cliente.setId(generatedKeys.getLong(1));
+					cliente.setId(generatedKeys.getInt(1));
 				} else {
 					throw new SQLException("Falha ao obter o ID gerado.");
 				}
@@ -93,6 +93,10 @@ public class ClienteService {
 		    if (cliente.getNomeFantasia() != null) {
 		        sql.append("nomefantasia = ?, ");
 		        parameters.add(cliente.getNomeFantasia());
+		    }
+		    if (cliente.getRazaoSocial() != null) {
+		    	sql.append("razaosocial = ?, ");
+		    	parameters.add(cliente.getRazaoSocial());
 		    }
 		    if (cliente.getCpfCnpj() != null) {
 		        sql.append("cpfcnpj = ?, ");
@@ -170,7 +174,7 @@ public class ClienteService {
 		return cliente;
 	}
 
-	public Cliente findById(Long id) {
+	public Cliente findById(Integer id) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet resultSet = null;
@@ -184,18 +188,18 @@ public class ClienteService {
 			}
 
 			String sql = "SELECT c.id, c.inativo, c.datacadastro, c.nomefantasia, c.cpfcnpj, c.telefone, "
-					+ " c.cep, c.endereco, c.numero, c.bairro, c.complemento, c.cidade as nomecidade "
+					+ " c.cep, c.endereco, c.numero, c.bairro, c.complemento, c.cidade as nomecidade, c.razaosocial "
 					+ "FROM cliente c " +
 
 					"WHERE c.id = ?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setLong(1, id);
+			stmt.setInt(1, id);
 
 			resultSet = stmt.executeQuery();
 
 			if (resultSet.next()) {
 				cliente = new Cliente();
-				cliente.setId(resultSet.getLong("id"));
+				cliente.setId(resultSet.getInt("id"));
 				cliente.setInativo(resultSet.getBoolean("inativo"));
 				cliente.setDataCadastro(resultSet.getTimestamp("datacadastro"));
 				cliente.setNomeFantasia(resultSet.getString("nomefantasia"));
@@ -207,6 +211,7 @@ public class ClienteService {
 				cliente.setBairro(resultSet.getString("bairro"));
 				cliente.setComplemento(resultSet.getString("complemento"));
 				cliente.setCidade(resultSet.getString("nomecidade"));
+				cliente.setRazaoSocial(resultSet.getString("razaosocial"));
 			}
 
 		} catch (Exception e) {
@@ -306,14 +311,14 @@ public class ClienteService {
 			}
 
 			String sql = "SELECT c.id, c.inativo, c.datacadastro, c.nomefantasia, c.cpfcnpj, c.telefone, "
-					+ " c.cep, c.endereco, c.numero, c.bairro, c.complemento, c.cidade as nomecidade "
-					+ "FROM cliente c " + "WHERE id > 0 " + pesquisaConcatenada + "ORDER BY c.id DESC LIMIT 100";
+					+ " c.cep, c.endereco, c.numero, c.bairro, c.complemento, c.cidade as nomecidade, c.razaosocial "
+					+ " FROM cliente c " + "WHERE id > 0 " + pesquisaConcatenada + " ORDER BY c.id DESC LIMIT 100";
 			stmt = conn.prepareStatement(sql);
 			resultSet = stmt.executeQuery();
 
 			while (resultSet.next()) {
 				Cliente cliente = new Cliente();
-				cliente.setId(resultSet.getLong("id"));
+				cliente.setId(resultSet.getInt("id"));
 				cliente.setInativo(resultSet.getBoolean("inativo"));
 				cliente.setDataCadastro(resultSet.getDate("datacadastro"));
 				cliente.setNomeFantasia(resultSet.getString("nomefantasia"));
@@ -325,6 +330,7 @@ public class ClienteService {
 				cliente.setBairro(resultSet.getString("bairro"));
 				cliente.setComplemento(resultSet.getString("complemento"));
 				cliente.setCidade(resultSet.getString("nomecidade"));
+				cliente.setRazaoSocial(resultSet.getString("razaosocial"));
 
 				clientes.add(cliente);
 			}
@@ -350,7 +356,7 @@ public class ClienteService {
 		return clientes;
 	}
 
-	public Boolean deleteCliente(Long id) {
+	public Boolean deleteCliente(Integer id) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
@@ -360,7 +366,7 @@ public class ClienteService {
 			}
 
 			stmt = conn.prepareStatement("delete from cliente where id = ?");
-			stmt.setLong(1, id);
+			stmt.setInt(1, id);
 
 			stmt.execute();
 

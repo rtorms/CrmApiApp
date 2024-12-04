@@ -41,13 +41,13 @@ public interface OportunidadeApi {
 	@Operation(summary = "Carregar oportunidade", description = "Carregar oportunidade pelo ID")
 	@GetMapping(value = "/carregar")
 	ResponseEntity<Oportunidade> carregarOportunidade(
-			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do oportunidade", example = "1") Long id);
+			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do oportunidade", example = "1") Integer id);
 
 		
 	@Operation(summary = "Excluir oportunidade", description = "Excluir oportunidade pelo ID" )
 	@DeleteMapping(value = "/delete")
 	ResponseEntity<Boolean> deleteOportunidade(
-			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do oportunidade", example = "1") Long id);
+			@RequestParam(value = "id") @ApiParam(name = "id", value = "ID do oportunidade", example = "1") Integer id);
 
 }
 

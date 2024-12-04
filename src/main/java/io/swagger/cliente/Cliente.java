@@ -4,9 +4,10 @@ import java.util.Date;
 
 public class Cliente {
 
-	private Long id;
+	private Integer id;
 	private boolean inativo;
 	private Date dataCadastro;
+	private String razaoSocial;
 	private String nomeFantasia;
 	private String cpfCnpj;
 	private String telefone;
@@ -17,10 +18,10 @@ public class Cliente {
 	private String complemento;
 	private String cidade;
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public boolean isInativo() {
@@ -88,6 +89,12 @@ public class Cliente {
 	}
 	public void setCidade(String cidade) {
 		this.cidade = cidade;
+	}
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
 	}
 
 	

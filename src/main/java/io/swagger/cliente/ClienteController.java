@@ -49,14 +49,14 @@ public class ClienteController implements ClienteApi {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ResponseEntity<Cliente> carregarCliente(@RequestParam(value = "id") Long id) {
+	public ResponseEntity<Cliente> carregarCliente(@RequestParam(value = "id") Integer id) {
 		Cliente cliente = clienteSyncService.findById(id);
 		return (ResponseEntity<Cliente>) (cliente != null ? ResponseEntity.ok(cliente)
 				: ResponseEntity.notFound().build());
 	}
 
 	@Override
-	public ResponseEntity<Boolean> deleteCliente(@RequestParam(value = "id") Long id) {
+	public ResponseEntity<Boolean> deleteCliente(@RequestParam(value = "id") Integer id) {
 		Boolean exclusao = clienteSyncService.deleteCliente(id);
 		return (ResponseEntity<Boolean>) ResponseEntity.ok(exclusao);
 	}

@@ -45,14 +45,14 @@ public class OportunidadeController implements OportunidadeApi {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public ResponseEntity<Oportunidade> carregarOportunidade(@RequestParam(value = "id") Long id) {
+	public ResponseEntity<Oportunidade> carregarOportunidade(@RequestParam(value = "id") Integer id) {
 		Oportunidade oportunidade = oportunidadeSyncService.findById(id);
 		return (ResponseEntity<Oportunidade>) (oportunidade != null ? ResponseEntity.ok(oportunidade)
 				: ResponseEntity.notFound().build());
 	}
 
 	@Override
-	public ResponseEntity<Boolean> deleteOportunidade(@RequestParam(value = "id") Long id) {
+	public ResponseEntity<Boolean> deleteOportunidade(@RequestParam(value = "id") Integer id) {
 		Boolean exclusao = oportunidadeSyncService.deleteOportunidade(id);
 		return (ResponseEntity<Boolean>) ResponseEntity.ok(exclusao);
 	}

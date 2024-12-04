@@ -6,22 +6,23 @@ import java.util.List;
 
 public class Oportunidade implements Serializable {
 
-	private static final long serialVersionUID = 2886309453909142592L;
+	private static final long serialVersionUID = -787240228060835435L;
 
-	private Long id;
+	private Integer id;
 	private LocalDateTime dataCadastro;
 	private LocalDateTime dataConquistaPerda;
 	private String descricao;
 	private Integer situacaoOportunidade;
-	private Long idCliente;
+	private Integer idCliente;
+	private String nomeCliente;
 	private Double valor;
 	private List<Anotacao> anotacoes;
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -57,11 +58,11 @@ public class Oportunidade implements Serializable {
 		this.situacaoOportunidade = situacaoOportunidade;
 	}
 
-	public Long getIdCliente() {
+	public Integer getIdCliente() {
 		return idCliente;
 	}
 
-	public void setIdCliente(Long idCliente) {
+	public void setIdCliente(Integer idCliente) {
 		this.idCliente = idCliente;
 	}
 
@@ -79,6 +80,14 @@ public class Oportunidade implements Serializable {
 
 	public void setAnotacoes(List<Anotacao> anotacoes) {
 		this.anotacoes = anotacoes;
+	}
+
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
 	}
 	
 }
